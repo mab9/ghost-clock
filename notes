@@ -36,4 +36,3 @@ https://www.cyberciti.biz/faq/how-to-run-cron-job-every-minute-on-linuxunix/
 - gif image with convert
 convert -loop 0 -delay 100 in1.png in2.png out.gif
 
-- $0 read paramets in scripts

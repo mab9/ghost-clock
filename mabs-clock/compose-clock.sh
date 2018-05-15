@@ -1,21 +1,17 @@
 #!/bin/bash          
 
-if [ ! -z "$1" ]
-then 
-	echo "parameter 1: $1"
-fi
-
 #zeiger mitte des haupt bildes
 x=730
 y=1330
 
-rotatePointers() {
-	minute="$(date +%M)"
-	houre="$(date +%H)"
+minute="$(date +%M)"
+houre="$(date +%H)"
 
-	if [ $houre -gt 12 ]
+
+rotatePointers() {
+	if [ ${houre} -gt 12 ]
 	then
-		houre=`expr $houre - 12`
+		${houre}=`expr ${houre} - 12`
 	fi
 
 	mrotation=`expr ${minute} \* 6`
@@ -43,13 +39,49 @@ composeMinutePointer() {
     #neu ausrichtung der zeiger zur mitte der uhr
     xnew=`expr ${x} - ${mwidth} - 20`
     ynew=`expr ${y} - ${mwidth} - 10`
-    convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../r.png
+
+
+    if [ ! -z "$1" ]
+    then
+        convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../gif/r-${1}.png
+	else
+	    convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../r.png
+    fi
 }
 
-rotatePointers
-composeHourePointer
-composeMinutePointer
+processGif() {
+    counter=${1}
+    images=""
+    rm -rf ../gif/*
+    while [ ${counter} -gt 0 ]
+    do
+        echo "processing image nr: ${counter} from ${1}"
+        rotatePointers
+        composeHourePointer
+        composeMinutePointer ${counter}
+        #r = "../gif/r-${counter}.png"
+        images=" ${images} ../gif/r-${counter}.png"
+        ((counter--))
+        ((minute++))
+    done
+    convert -loop 0 -delay 100 ${images} ../r.gif
+}
+
+
+
+if [ ! -z "$1" ]
+then
+    echo "processing gif with ${1} images"
+	processGif ${1}
+else
+    rotatePointers
+    composeHourePointer
+    composeMinutePointer
+fi
+
+
 
 #set image to the background
 gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/r.png
 gsettings set org.gnome.desktop.background picture-options "zoom"
+
