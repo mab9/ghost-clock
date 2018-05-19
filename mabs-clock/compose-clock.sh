@@ -14,60 +14,26 @@ rotatePointers() {
 	    currentHour=`expr ${currentHour} - 12`
 	fi
 
-	mrotation=`expr ${currentMinute} \* 6`
-	hrotation=`expr ${currentHour} \* 30 \+ ${currentMinute} \/ 4`
+	mRotation=`expr ${currentMinute} \* 6`
+	hRotation=`expr ${currentHour} \* 30 \+ ${currentMinute} \/ 4`
 
-	#rotieren der zeiger
-	convert -background 'rgba(0,0,0,0)' -rotate ${hrotation} ./h-original.png ./h.png
-	convert -background 'rgba(0,0,0,0)' -rotate ${mrotation} ./m-original.png ./m.png
+	convert -background 'rgba(0,0,0,0)' -rotate ${hRotation} ./h-original.png ./h.png
+	convert -background 'rgba(0,0,0,0)' -rotate ${mRotation} ./m-original.png ./m.png
 }
 
-composeHourePointer() {
-    #halbe bild breite
+composeClock() {
     hWidth=`convert ./h.png -format "%[fx:w/2]" info:`
+    mWidth=`convert ./m.png -format "%[fx:w/2]" info:`
 
-    #neu ausrichtung der zeiger zur mitte der uhr
-    xMinute=`expr ${xPointerCenter} - ${hWidth} - 28`
-    yMinute=`expr ${yPointerCenter} - ${hWidth}`
-    convert ./c-original.png ./h.png -geometry +${xMinute}+${yMinute} -composite ./r.png
-}
+    #neu positionierung der zeiger in die mitte der uhr
+    xHoure=`expr ${xPointerCenter} - ${hWidth} - 28`
+    yHoure=`expr ${yPointerCenter} - ${hWidth}`
 
-#convert ./c-original.png ./h.png -geometry +730+1330 -composite ./m.png -geometry +730+1330 -composite res.png
-composeMinutePointer() {
-    #halbe bild breite
-    mMidth=`convert ./m.png -format "%[fx:w/2]" info:`
+    xMinute=`expr ${xPointerCenter} - ${mWidth} - 20`
+    yMinute=`expr ${yPointerCenter} - ${mWidth} - 10`
 
-    #neu ausrichtung der zeiger zur mitte der uhr
-    xMinute=`expr ${xPointerCenter} - ${mMidth} - 20`
-    yMinute=`expr ${yPointerCenter} - ${mMidth} - 10`
-
-
-#    if [ ! -z "$1" ]
-#    then
-#        convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../gif/r-${1}.png
-#	 else
-#	    convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../r.png
-#    fi
-
-    convert ./r.png ./m.png -geometry +${xMinute}+${yMinute} -composite ../r.png
-
-}
-
-processGif() {
-    counter=20
-    images=""
-    rm -rf ../gif/*
-    while [ ${counter} -gt 0 ]
-    do
-        echo "processing image nr: ${counter} from ${1}"
-        rotatePointers
-        composeHourePointer
-        composeMinutePointer ${counter}
-        images=" ${images} ../gif/r-${counter}.png"
-        ((counter--))
-        ((currentMinute++))
-    done
-    convert -loop 0 -delay 100 ${images} ../r.gif
+    convert ./c-original.png ./h.png -geometry +${xHoure}+${yHoure} -composite \
+            ./m.png -geometry +${xMinute}+${yMinute} -composite ../r.png
 }
 
 setClockToBackground() {
@@ -79,8 +45,7 @@ setClockToBackground() {
 
 processImage() {
     rotatePointers
-    composeHourePointer
-    composeMinutePointer
+    composeClock
     cp ../r.png /usr/share/backgrounds/r.png
     setClockToBackground
 }
