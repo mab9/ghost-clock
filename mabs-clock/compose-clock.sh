@@ -1,5 +1,8 @@
 #!/bin/bash          
 
+#logger "mab-bg-clock should be actualized"
+cd ~/source/mab-bg-clock/mabs-clock/
+
 #zeiger mitte des haupt bildes
 x=730
 y=1330
@@ -11,7 +14,7 @@ houre="$(date +%H)"
 rotatePointers() {
 	if [ ${houre} -gt 12 ]
 	then
-		${houre}=`expr ${houre} - 12`
+	    houre=`expr ${houre} - 12`
 	fi
 
 	mrotation=`expr ${minute} \* 6`
@@ -74,14 +77,15 @@ then
     echo "processing gif with ${1} images"
 	processGif ${1}
 else
+    #echo "prcoessing bg clock"
     rotatePointers
     composeHourePointer
     composeMinutePointer
+    cp ../r.png /usr/share/backgrounds/r.png
 fi
-
-
 
 #set image to the background
 gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/r.png
 gsettings set org.gnome.desktop.background picture-options "zoom"
-
+#echo "clock generated and set as desktop bg"
+#logger "clock generated and set as desktop bg"
