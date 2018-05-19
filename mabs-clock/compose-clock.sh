@@ -10,7 +10,6 @@ y=1330
 minute="$(date +%M)"
 houre="$(date +%H)"
 
-
 rotatePointers() {
 	if [ ${houre} -gt 12 ]
 	then
@@ -44,12 +43,15 @@ composeMinutePointer() {
     ynew=`expr ${y} - ${mwidth} - 10`
 
 
-    if [ ! -z "$1" ]
-    then
-        convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../gif/r-${1}.png
-	else
-	    convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../r.png
-    fi
+#    if [ ! -z "$1" ]
+#    then
+#        convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../gif/r-${1}.png
+#	 else
+#	    convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../r.png
+#    fi
+
+    convert ./r.png ./m.png -geometry +${xnew}+${ynew} -composite ../r.png
+
 }
 
 processGif() {
@@ -62,7 +64,6 @@ processGif() {
         rotatePointers
         composeHourePointer
         composeMinutePointer ${counter}
-        #r = "../gif/r-${counter}.png"
         images=" ${images} ../gif/r-${counter}.png"
         ((counter--))
         ((minute++))
@@ -70,19 +71,38 @@ processGif() {
     convert -loop 0 -delay 100 ${images} ../r.gif
 }
 
-
-
-if [ ! -z "$1" ]
-then
-    echo "processing gif with ${1} images"
-	processGif ${1}
-else
-    #echo "prcoessing bg clock"
+processImage() {
     rotatePointers
     composeHourePointer
     composeMinutePointer
     cp ../r.png /usr/share/backgrounds/r.png
-fi
+}
+
+while getopts ":r" opt; do
+  case $opt in
+    r)
+      echo "clock will be generated with a random minute pointer" >&2
+      minute=`expr $RANDOM % 60`
+      processImage
+      exit 1
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
+
+#if [ ! -z "$1" ]
+#then
+#    echo "processing gif with ${1} images"
+#	processGif ${1}
+#else
+#    processImage
+#fi
+
+
+processImage
 
 #set image to the background
 gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/r.png
