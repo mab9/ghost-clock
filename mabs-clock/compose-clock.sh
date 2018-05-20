@@ -4,6 +4,12 @@ cd ~/source/mab-bg-clock/mabs-clock/
 
 originalsPath="./originals/1920-1080-v1"
 
+#1920-1080
+#3840-2560
+
+#xPointerCenter=730
+#yPointerCenter=1330
+
 xPointerCenter=361
 yPointerCenter=494
 
