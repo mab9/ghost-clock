@@ -23,7 +23,7 @@ rotatePointers() {
 	fi
 
 	mRotation=`expr ${currentMinute} \* 6`
-	hRotation=`expr ${currentHour} \* 30 \+ ${currentMinute} \/ 4`
+	hRotation=`expr ${currentHour} \* 30 \+ ${currentMinute} \/ 2`
 
 	convert -background 'rgba(0,0,0,0)' -rotate ${hRotation} ${originalsPath}/h-original.png ./h.png
 	convert -background 'rgba(0,0,0,0)' -rotate ${mRotation} ${originalsPath}/m-original.png ./m.png
