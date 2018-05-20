@@ -26,11 +26,11 @@ composeClock() {
     mWidth=`convert ./m.png -format "%[fx:w/2]" info:`
 
     #neu positionierung der zeiger in die mitte der uhr
-    xHoure=`expr ${xPointerCenter} - ${hWidth} - 28`
+    xHoure=`expr ${xPointerCenter} - ${hWidth}`
     yHoure=`expr ${yPointerCenter} - ${hWidth}`
 
-    xMinute=`expr ${xPointerCenter} - ${mWidth} - 20`
-    yMinute=`expr ${yPointerCenter} - ${mWidth} - 10`
+    xMinute=`expr ${xPointerCenter} - ${mWidth}`
+    yMinute=`expr ${yPointerCenter} - ${mWidth}`
 
     convert ./c-original.png ./h.png -geometry +${xHoure}+${yHoure} -composite \
             ./m.png -geometry +${xMinute}+${yMinute} -composite ../r.png
