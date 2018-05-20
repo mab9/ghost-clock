@@ -2,8 +2,10 @@
 
 cd ~/source/mab-bg-clock/mabs-clock/
 
-xPointerCenter=730
-yPointerCenter=1330
+originalsPath="./originals/1920-1080-v1"
+
+xPointerCenter=361
+yPointerCenter=494
 
 currentMinute="$(date +%M)"
 currentHour="$(date +%H)"
@@ -17,8 +19,8 @@ rotatePointers() {
 	mRotation=`expr ${currentMinute} \* 6`
 	hRotation=`expr ${currentHour} \* 30 \+ ${currentMinute} \/ 4`
 
-	convert -background 'rgba(0,0,0,0)' -rotate ${hRotation} ./h-original.png ./h.png
-	convert -background 'rgba(0,0,0,0)' -rotate ${mRotation} ./m-original.png ./m.png
+	convert -background 'rgba(0,0,0,0)' -rotate ${hRotation} ${originalsPath}/h-original.png ./h.png
+	convert -background 'rgba(0,0,0,0)' -rotate ${mRotation} ${originalsPath}/m-original.png ./m.png
 }
 
 composeClock() {
@@ -32,7 +34,7 @@ composeClock() {
     xMinute=`expr ${xPointerCenter} - ${mWidth}`
     yMinute=`expr ${yPointerCenter} - ${mWidth}`
 
-    convert ./c-original.png ./h.png -geometry +${xHoure}+${yHoure} -composite \
+    convert ${originalsPath}/c-original.png ./h.png -geometry +${xHoure}+${yHoure} -composite \
             ./m.png -geometry +${xMinute}+${yMinute} -composite ../r.png
 }
 
