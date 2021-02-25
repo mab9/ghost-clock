@@ -1,7 +1,8 @@
 #!/bin/bash          
 
 # cd to src files 
-cd ~/source/ghost-clock/
+cd ~/development/source/ghost-clock/
+
 
 originalsPath="./originals/1920-1080-v1"
 
@@ -42,11 +43,11 @@ composeClock() {
     yMinute=`expr ${yPointerCenter} - ${mWidth}`
 
     convert ${originalsPath}/c-original.png ./h.png -geometry +${xHoure}+${yHoure} -composite \
-            ./m.png -geometry +${xMinute}+${yMinute} -composite ../r.png
+            ./m.png -geometry +${xMinute}+${yMinute} -composite ./ghost-clock.png
 }
 
 setClockToBackground() {
-    gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/r.png
+    gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/ghost-clock.png
     gsettings set org.gnome.desktop.background picture-options "zoom"
     #echo "clock generated and set as desktop bg"
     #logger "clock generated and set as desktop bg"
@@ -55,8 +56,8 @@ setClockToBackground() {
 processImage() {
     rotatePointers
     composeClock
-    cp ../r.png /usr/share/backgrounds/r.png
-    setClockToBackground
+    #cp ./ghost-clock.png /usr/share/backgrounds/ghost-clock.png
+    #setClockToBackground
 }
 
 while getopts ":r" opt; do
