@@ -1,6 +1,7 @@
 #!/bin/bash          
 
-cd ~/source/mab-bg-clock/mabs-clock/
+# cd to src files 
+cd ~/source/ghost-clock/
 
 originalsPath="./originals/1920-1080-v1"
 
