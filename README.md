@@ -7,12 +7,12 @@
 ![GitHub forks](https://img.shields.io/github/forks/mab9/ghost-clock?style=social)
 <!--![Twitter Follow](https://img.shields.io/twitter/follow/mab9?style=social)-->
 
-Ghost clock is a tool that allows developers to reduce their repetitive tasks.
+Ghost clock is a background clock  tool that allows developers to reduce their repetitive tasks.
 
 The tool offers core functions and the possibility to integrate and use self written plugins to improve the dev workflow.
 It aims to make it easier to work on different devices by providing the same functions.
 
-![img](./originals/1920-1080-v1/c-original.png "ghost-clock")
+![img](./out.gif "ghost-clock")
 
 ## Installing ghost clock
 
