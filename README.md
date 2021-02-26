@@ -14,6 +14,7 @@ As soon ghost clock is installed, a clock image will be generated every minute a
 
 
 ![img](./out.gif "ghost-clock")
+![img](./ghost-clock.gif "ghost-clock")
 
 ## Installing ghost clock
 
@@ -22,6 +23,8 @@ To install ghost clock, follow these steps:
 Linux:
 ```
 git clone https://github.com/mab9/ghost-clock.git
+define cronjob
+put the script and original images at the right place
 ...
 
 ```
@@ -38,19 +41,19 @@ This command does resize the image so that it fits to the display.
     http://danilodellaquila.com/en/blog/how-to-automatically-change-your-desktop-background-wallpaper
 
 
-Arbeiten mit verschiedenen layers
+Work with multiple image layers
 
     convert  c.jpg h.jpg -geometry +250+250 -composite r.png
 
-Resize 
+Resizing the image resolution
 
     convert wecker.jpg -resize 1000 w.jpg
 
-Drehen der bilder
+Rotate an image
 
     convert -rotate 90 in.jpg out.jpg
   
-Rotate and set background transparent
+Rotate image and make background transparent
 
     convert -background 'rgba(0,0,0,0)' -rotate 105 clock-zeiger-h-original-v2.png h.png
   
@@ -65,11 +68,20 @@ Cronjob
     https://www.cyberciti.biz/faq/how-to-run-cron-job-every-minute-on-linuxunix/
 
 
-Gif image with convert
+Create a gif image
     
     convert -loop 0 -delay 100 in1.png in2.png out.gif
     convert -delay 25 -loop 0 -resize 20% ghost-clock-{1.23}-{0..59}.png ghost-clock.gif
 
+
+## Cache resources exhausted
+
+When your system falls into cache resources exhausted errors you may increase image magick max memory usage. 
+
+    sudo nano /etc/ImageMagick-6/policy.xml
+    <policy domain="resource" name="disk" value="1GiB"/>  
+
+**Example: increase memory usage from 1gb to 2gb**
 
 ## Contributing to ghost clock
 
