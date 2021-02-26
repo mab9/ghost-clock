@@ -7,10 +7,11 @@
 ![GitHub forks](https://img.shields.io/github/forks/mab9/ghost-clock?style=social)
 <!--![Twitter Follow](https://img.shields.io/twitter/follow/mab9?style=social)-->
 
-Ghost clock is a background clock  tool that allows developers to reduce their repetitive tasks.
+Ghost clock always shows you the current time on your desktop background. 
 
-The tool offers core functions and the possibility to integrate and use self written plugins to improve the dev workflow.
-It aims to make it easier to work on different devices by providing the same functions.
+When executing the script, it produces an image of a clock showing the current time. 
+As soon ghost clock is installed, a clock image will be generated every minute and set to your desktop background. This makes your desktop spitting.
+
 
 ![img](./out.gif "ghost-clock")
 
@@ -20,48 +21,54 @@ To install ghost clock, follow these steps:
 
 Linux:
 ```
-git clone https://github.com/mab9/md.git
-bash ./md/installation.sh
+git clone https://github.com/mab9/ghost-clock.git
+...
+
 ```
 
-## Using ghost clock
+## Explanation of commands 
 
-this command sets the image to the background. the image must be in the /usr/share/backgrounds folder. otherwise the background change will not work.
-gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/clock.jpg
+This command sets the image to the background. the image must be in the /usr/share/backgrounds folder. Otherwise the background change will not work.
 
+    gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/clock.jpg
 
-this command does resize the image so taht it fits to the display.
-gsettings set org.gnome.desktop.background picture-options "zoom"
-
-http://danilodellaquila.com/en/blog/how-to-automatically-change-your-desktop-background-wallpaper
-
-
-- arbeiten mit verschiedenen layers
-convert  c.jpg h.jpg -geometry +250+250 -composite r.png
-
-- resize 
-convert wecker.jpg -resize 1000 w.jpg
-
-- drehen der bilder
-convert -rotate 90 in.jpg out.jpg
+This command does resize the image so that it fits to the display.
+    
+    gsettings set org.gnome.desktop.background picture-options "zoom"
+    http://danilodellaquila.com/en/blog/how-to-automatically-change-your-desktop-background-wallpaper
 
 
-- rotate and set background transparent
-convert -background 'rgba(0,0,0,0)' -rotate 105 clock-zeiger-h-original-v2.png h.png
+Arbeiten mit verschiedenen layers
+
+    convert  c.jpg h.jpg -geometry +250+250 -composite r.png
+
+Resize 
+
+    convert wecker.jpg -resize 1000 w.jpg
+
+Drehen der bilder
+
+    convert -rotate 90 in.jpg out.jpg
+  
+Rotate and set background transparent
+
+    convert -background 'rgba(0,0,0,0)' -rotate 105 clock-zeiger-h-original-v2.png h.png
+  
+Get image width
+
+    identify -format "%w" c.png 
+
+  
+Cronjob 
+
+    crontab -e * * * * * /compose-clock.sh
+    https://www.cyberciti.biz/faq/how-to-run-cron-job-every-minute-on-linuxunix/
 
 
-- get image width 
-identify -format "%w" c.png 
-
-
-
-- cronjob 
-crontab -e * * * * * /compose-clock.sh
-https://www.cyberciti.biz/faq/how-to-run-cron-job-every-minute-on-linuxunix/
-
-
-- gif image with convert
-convert -loop 0 -delay 100 in1.png in2.png out.gif
+Gif image with convert
+    
+    convert -loop 0 -delay 100 in1.png in2.png out.gif
+    convert -delay 25 -loop 0 -resize 20% ghost-clock-{1.23}-{0..59}.png ghost-clock.gif
 
 
 ## Contributing to ghost clock
@@ -72,17 +79,15 @@ To contribute to ghost clock, follow these steps:
 1. Fork this repository.
 2. Create a branch: `git checkout -b <branch_name>`.
 3. Make your changes and commit them: `git commit -m '<commit_message>'`
-4. Push to the original branch: `git push origin md/<location>`
+4. Push to the original branch: `git push origin ghost-clock/<location>`
 5. Create the pull request.
 
 Alternatively see the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
 ## My next ideas
 
-- Make core scripts generic
-- add md autocompletion
-- Extend the use of the working directory
-- Add a logging script with a lot of inos about logging [like](https://sematext.com/blog/journald-logging-tutorial/)
+- finish readme, add gif
+- provide solid installation description
 
 ## Contributors
 

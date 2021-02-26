@@ -5,12 +5,13 @@ cd ~/development/source/ghost-clock/
 
 # convert -delay 1 -loop 0 -resize 50% ghost-clock-{0..59}.png out.gif
 # convert -delay 25 -loop 0 -resize 20% ghost-clock-{0..59}.png out.gif
+# convert -delay 25 -loop 0 -resize 20% ghost-clock-${1.23}-${0..59}.png ghost-clock.gif
 # -loop 0 = run 4 ever
 # -delay in 100/s
 
 
 
-originalsPath="./originals/gif"
+originalsPath="./gif"
 
 #1920-1080
 #3840-2560
@@ -49,7 +50,7 @@ composeClock() {
     yMinute=`expr ${yPointerCenter} - ${mWidth}`
 
     convert ${originalsPath}/c-original.png ./h.png -geometry +${xHoure}+${yHoure} -composite \
-            ./m.png -geometry +${xMinute}+${yMinute} -composite ./ghost-clock-${currentMinute}.png
+            ./m.png -geometry +${xMinute}+${yMinute} -composite ./gif/ghost-clock-${currentHour}-${currentMinute}.png
 }
 
 setClockToBackground() {
@@ -80,12 +81,19 @@ while getopts ":r" opt; do
   esac
 done
 
-# Generate one hour
-for (( i = 0; i < 60; i++ )); do
-    currentMinute=$i
-    processImage
-done
+function generateImagesForAWholeDay() {
+
+  # Generate a day
+  for (( j = 13; j < 23; j++ )); do
+      # Generate one hour
+      for (( i = 0; i < 60; i++ )); do
+          currentMinute=$i
+          currentHour=$j
+          processImage
+      done
+  done
+}
 
 
-
-processImage
+generateImagesForAWholeDay
+#processImage
