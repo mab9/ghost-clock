@@ -13,9 +13,6 @@ When executing the script, it produces an image of a clock showing the current t
 As soon ghost clock is installed, a clock image will be generated every minute and set as your desktop background. 
 This makes your desktop spitting.
 
-![img](./out.gif "ghost-clock")
-
-
 ![img](./ghost-clock.gif "ghost-clock")
 
 ## Installing ghost clock
