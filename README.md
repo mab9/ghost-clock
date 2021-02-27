@@ -10,10 +10,12 @@
 Ghost clock always shows you the current time on your desktop background. 
 
 When executing the script, it produces an image of a clock showing the current time. 
-As soon ghost clock is installed, a clock image will be generated every minute and set to your desktop background. This makes your desktop spitting.
-
+As soon ghost clock is installed, a clock image will be generated every minute and set as your desktop background. 
+This makes your desktop spitting.
 
 ![img](./out.gif "ghost-clock")
+
+
 ![img](./ghost-clock.gif "ghost-clock")
 
 ## Installing ghost clock
@@ -21,15 +23,20 @@ As soon ghost clock is installed, a clock image will be generated every minute a
 To install ghost clock, follow these steps:
 
 Linux:
+
 ```
 git clone https://github.com/mab9/ghost-clock.git
-define cronjob
-put the script and original images at the right place
-...
-
+crontab -e
+* * * * * /<ReplaceMe-path-toGhostClockScript>/ghost-clock.sh -s  # chose resolution -s (1920-1080) or -m (3840-2560): 
+@reboot /<ReplaceMe-path-toGhostClockScript>/ghost-clock.sh -s  # chose resolution -s (1920-1080) or -m (3840-2560): 
 ```
+- **Checkout the crontab example config image**
 
-## Explanation of commands 
+- **We create a user based crontab entry to run it with the given user: crontab -e. These entries are stored in files with the same name as the user in this directory, /var/spool/cron/**
+
+- **Jobs that are added manually to the systems crontab (edit /etc/crontab) will be run with absolute permissions (ie: run as root) unless you specify another user.**
+
+## Explanation of used commands 
 
 This command sets the image to the background. the image must be in the /usr/share/backgrounds folder. Otherwise the background change will not work.
 
@@ -62,19 +69,29 @@ Get image width
     identify -format "%w" c.png 
 
   
-Cronjob 
+Cronjob config
 
-    crontab -e * * * * * /compose-clock.sh
-    https://www.cyberciti.biz/faq/how-to-run-cron-job-every-minute-on-linuxunix/
-
+    run cronjob every minute
+    crontab -e * * * * * /ghost-clock.sh -s
+    
+    run script on system reboot
+    crontab -e @reboot /ghost-clock.sh -s
 
 Create a gif image
     
     convert -loop 0 -delay 100 in1.png in2.png out.gif
-    convert -delay 25 -loop 0 -resize 20% ghost-clock-{1.23}-{0..59}.png ghost-clock.gif
+    convert -delay 25 -loop 0 -resize 20% ghost-clock-{0..11}-{0..59}.png ghost-clock.gif
 
+- **-loop 0 = run 4 ever**
+- **-delay 25 = x/100 ticks per second**
 
-## Cache resources exhausted
+## Possible errors
+
+### Gsettings not working for your OS
+
+Google the right gsetting command to set background image.
+
+### Cache resources exhausted
 
 When your system falls into cache resources exhausted errors you may increase image magick max memory usage. 
 
@@ -82,6 +99,13 @@ When your system falls into cache resources exhausted errors you may increase im
     <policy domain="resource" name="disk" value="1GiB"/>  
 
 **Example: increase memory usage from 1gb to 2gb**
+
+## My next ideas
+
+- provide support for ios, windows, android and more
+- execute script when unlocking os from sleep mode
+- change image transition speed for linux mint
+- fix -m resolution bug. The pointers for resolution -m are always few minutes behind current time.
 
 ## Contributing to ghost clock
 
@@ -95,11 +119,6 @@ To contribute to ghost clock, follow these steps:
 5. Create the pull request.
 
 Alternatively see the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
-
-## My next ideas
-
-- finish readme, add gif
-- provide solid installation description
 
 ## Contributors
 
@@ -117,15 +136,3 @@ If you want to contact me you can reach me at **marcantoine.bruelhart@gmail.com.
 <!--- If you're not sure which open license to use see https://choosealicense.com/--->
 
 This project uses the following license: [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/).
-
-
-
-
-
-
-
-
-
-
-
-
