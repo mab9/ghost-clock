@@ -35,15 +35,13 @@ crontab -e
 
 ## Explanation of used commands 
 
-This command sets the image to the background. the image must be in the /usr/share/backgrounds folder. Otherwise the background change will not work.
+Set image to background
 
-    gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/clock.jpg
+    gsettings set org.gnome.desktop.background picture-uri file:///path/to/image/clock.jpg
 
-This command does resize the image so that it fits to the display.
+Resize image that it fits to the display.
     
     gsettings set org.gnome.desktop.background picture-options "zoom"
-    http://danilodellaquila.com/en/blog/how-to-automatically-change-your-desktop-background-wallpaper
-
 
 Work with multiple image layers
 
