@@ -22,6 +22,7 @@ To install ghost clock, follow these steps:
 Linux:
 
 ```
+sudo apt install imagemagick 
 git clone https://github.com/mab9/ghost-clock.git
 crontab -e
 * * * * * /<ReplaceMe-path-toGhostClockScript>/ghost-clock.sh -s  # chose resolution -s (1920-1080) or -m (3840-2560): 
